@@ -1,0 +1,11 @@
+# 构建源码 / 本地工具（无需上传）
+_aerobits/
+serve.mjs
+
+# 依赖
+node_modules/
+
+# 日志 / 系统文件
+*.log
+.DS_Store
+Thumbs.db
