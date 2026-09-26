@@ -1,15 +1,11 @@
 name: Deploy Website to GitHub Pages
 
 # 触发条件：
-#   1. 推送到 main 分支且网站文件或本工作流有变动时自动部署
+#   1. 推送到 main 分支（任何文件变动都部署，避免漏掉 assets/ 等目录的更新）
 #   2. 也可以在 Actions 页面手动点 "Run workflow"
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'index.html'
-      - '*.mjs'
-      - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
 # 允许工作流向 GitHub Pages 发布内容
@@ -35,8 +31,6 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
