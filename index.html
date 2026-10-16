@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>谭凯勤 | 个人简历</title>
+<link rel="stylesheet" href="ppt-gallery.css">
 <script>
 /* 在渲染前应用主题：默认夜间，尊重已保存的选择，避免首屏闪烁 */
 try{
@@ -1245,7 +1246,7 @@ const resume = {
       ],
       [
         {
-          icon:"🎯",title:"个人复合技能体系建设项目",time:"2025.xx – 至今",
+          icon:"🎯",title:"个人复合技能体系建设项目",time:"2025.xx – 至今",pptGallery:true,
           desc:"作为大一新生主动规划个人技能矩阵，围绕「工程设计 + 数字技能 + 商业能力」三维度系统提升综合竞争力，为后续实习与竞赛储备能力底座。",
           tags:["AI 工具","PPT 设计","板绘","自主学习","作品集"],
           points:[
@@ -1386,6 +1387,25 @@ function buildTabs(containerId, panelsId, data, isProject){
         grid.appendChild(card);
       });
       panel.appendChild(grid);
+      if(panelArr.some(p => p.pptGallery)){
+        const portfolio = ce("section","ppt-portfolio");
+        portfolio.id = "ppt-portfolio";
+        portfolio.setAttribute("aria-labelledby","ppt-portfolio-title");
+        const slideTitles = ["封面","汇报框架","时代之问","制造大国的底盘","机器换人与岗位变化","人才缺口与机会","工匠之尺","工匠精神的四个刻度","机械领域的大国工匠","创新之翼","机械＋X","机械青年的能力矩阵","青年之行","四年成长路线","政策支持与行动","极致 × 交叉"];
+        portfolio.innerHTML = `
+          <div class="ppt-portfolio-heading">
+            <p class="ppt-portfolio-kicker">PPT DESIGN · 课堂汇报作品</p>
+            <h3 id="ppt-portfolio-title">新时代机械青年的双重素养要求</h3>
+            <p class="ppt-portfolio-description">围绕大国工匠与创新人才的双重素养，呈现信息整理、内容编排与视觉表达的实践。共 16 页，点击图片可放大阅读。</p>
+          </div>
+          <div id="ppt-gallery-root"><div class="ppt-gallery-stage"><img class="ppt-gallery-cover" src="assets/mechanical-youth/slide-01.webp" width="960" height="540" loading="lazy" alt="PPT 封面：新时代机械青年的双重素养要求"></div></div>
+          <p class="ppt-gallery-hint">左右拖动 / 滑动切换 · 点击图片放大 · 支持键盘左右键</p>
+          <details class="ppt-pages"><summary>按顺序浏览全部 16 页</summary><ol class="ppt-pages-grid">${slideTitles.map((title,index) => {
+            const page = String(index+1).padStart(2,"0");
+            return `<li><a href="assets/mechanical-youth/slide-${page}-full.webp" target="_blank" rel="noopener"><img src="assets/mechanical-youth/slide-${page}.webp" width="960" height="540" loading="lazy" alt="第 ${index+1} 页：${title}">${page} · ${title} ↗</a></li>`;
+          }).join("")}</ol></details>`;
+        panel.appendChild(portfolio);
+      }
     } else {
       const tl = ce("div","timeline");
       panelArr.forEach(exp => {
@@ -1419,6 +1439,10 @@ function switchTab(bar,wrap,btn,idx,total){
 
 buildTabs("expTabs","expPanels",resume.experience,false);
 buildTabs("projTabs","projPanels",resume.projects,true);
+if(location.hash === "#ppt-portfolio"){
+  document.querySelectorAll("#projTabs .tab-btn")[2].click();
+  document.getElementById("ppt-portfolio").scrollIntoView({behavior:"instant"});
+}
 
 // 键盘左右切换 Tabs
 function bindKeyTabs(barId){
@@ -2096,5 +2120,6 @@ document.querySelectorAll(".btn-primary").forEach(btn => {
 -->
 <div id="glowCursorRoot"></div>
 <script type="module" src="glow-cursor.mjs"></script>
+<script type="module" src="ppt-gallery.mjs"></script>
 </body>
 </html>
